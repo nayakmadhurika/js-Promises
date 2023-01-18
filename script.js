@@ -13,21 +13,40 @@ function getPosts(){
     }, 1000);
 }
 
-function createPost(post, callback){
-    setTimeout(() => {
-        posts.push({...post, createdAt: new Date().getTime()})
-        callback();
-    }, 2000)
-}
-
-function create4thPost(post, callback){
-    setTimeout(() => {
-        posts.push({...post, createdAt: new Date().getTime()})
-        callback();
-    }, 4000)
-}
 
 
-createPost({title: 'post three', body: 'this is post three'}, getPosts)
+// function createPost(post, callback){
+//     setTimeout(() => {
+//         posts.push({...post, createdAt: new Date().getTime()})
+//         callback();
+//     }, 2000)
+// }
 
-create4thPost({title: 'post four', body: 'this is post four'}, getPosts);
+// function create4thPost(post, callback){
+//     setTimeout(() => {
+//         posts.push({...post, createdAt: new Date().getTime()})
+//         callback();
+//     }, 4000)
+// }
+
+
+const createPost = async(post) => {
+
+    const createPostpromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            posts.push({...post, createdAt: new Date().getTime()})
+            resolve();
+        }, 3000);
+    });
+    let ticket = await createPostpromise;
+
+    return ticket;
+};
+
+// preMovie().then((m) => console.log(`person3: shows ${m}`));
+
+createPost({title: 'post three', body: 'this is post three'}).then(() => {
+    getPosts()
+})
+
+// create4thPost({title: 'post four', body: 'this is post four'}, getPosts);
