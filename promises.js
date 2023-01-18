@@ -16,36 +16,33 @@ function getPosts(){
         document.body.innerHTML = output;
 }
 
-function createPost(post){
-    
-    return new Promise((resolve, reject) => {
+const createPost = async(post) => {
+
+    const createPostpromise = new Promise((resolve, reject) => {
         setTimeout(() => {
-            posts.push({...post, createdAt: new Date()})
-            
-            const error = false;
-            if(!error){
-                resolve()
-            }else{
-                reject('Error: Something went wrong')
-            }
-
-        }, 0);
+            posts.push({...post, createdAt: new Date().getTime()})
+            resolve();
+        }, 3000);
     });
-}
+    let ticket = await createPostpromise;
 
+    return ticket;
+};
 
-
-function deletePost(){
-    return new Promise((resolve, reject) => {
+const deletePost = async() => {
+    const deletepostpromise = new Promise((resolve, reject)=>{
         setTimeout(() => {
             if(posts.length > 0){
                 resolve(posts.pop());
-                console.log('Post Deleted');
+                    console.log('Post Deleted');
             } else {
                 reject('No more posts to be deleted')
             }
         }, 1000)
     })
+    let dlt = await deletepostpromise;
+
+    return dlt;
 }
 
 function updatelastactivitytime(){
@@ -63,10 +60,7 @@ function userupdatesapost(){
         console.log(updatelastactivitytimeresolves)
     })
 }
-// createPost({title: 'Post Three', body: 'This is post three'}).then(updateLastUserActivityTime).then(() => {
-//     console.log(posts);
-//     console.log('Last Activity Time: ', lastActivityTime);
-// }).catch(err => console.log(err));
+
 createPost({title: 'Post Three', body: 'This is post three'}).then(() => {
     getPosts()
     deletePost().then(() => {
